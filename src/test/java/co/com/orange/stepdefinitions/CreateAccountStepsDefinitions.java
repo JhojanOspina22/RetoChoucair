@@ -1,9 +1,8 @@
 package co.com.orange.stepdefinitions;
 
-import co.com.orange.questions.ValidateUsernameRegisteredAlready;
+import co.com.orange.questions.ValidateEmployeeId;
 import co.com.orange.tasks.EntersMenuPim;
 import co.com.orange.tasks.LoginPageWebOrange;
-import co.com.orange.questions.ValidateUsernameRegister;
 import co.com.orange.tasks.EnterDataCreateEmployee;
 
 import io.cucumber.java.Before;
@@ -48,19 +47,15 @@ public class CreateAccountStepsDefinitions {
 
     }
 
+    @Then("the user will see your {string} and {string} in the list employees create")
+    public void theUserWillSeeYourAndInTheListEmployeesCreate(String username, String lastname) {
+        OnStage.theActorInTheSpotlight().should(GivenWhenThen.seeThat(ValidateEmployeeId.text(), equalTo(username.concat(" "+ lastname))));
 
-    @Then("the user will see {string}")
-    public void theUserWillSee(String username) throws InterruptedException {
-        //Thread.sleep(5000);
-        OnStage.theActorInTheSpotlight().should(GivenWhenThen.seeThat(ValidateUsernameRegister.username(), equalTo(username)));
     }
 
+    @Then("the user will see your employee created")
+    public void theUserWillSeeYourEmployeeCreated() {
 
-    @Then("the user will see error{string}")
-    public void theUserWillSeeError(String message) {
-        OnStage.theActorInTheSpotlight().should(GivenWhenThen.seeThat(ValidateUsernameRegisteredAlready.message(), equalTo(message)));
     }
-
-
 
 }

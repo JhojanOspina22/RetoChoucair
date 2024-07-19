@@ -7,9 +7,9 @@ import net.serenitybdd.screenplay.Tasks;
 import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Enter;
 import net.serenitybdd.screenplay.matchers.WebElementStateMatchers;
-import net.serenitybdd.screenplay.rest.interactions.Get;
+import net.serenitybdd.screenplay.questions.Text;
 import net.serenitybdd.screenplay.waits.WaitUntil;
-
+import org.openqa.selenium.WebElement;
 
 public class EnterDataCreateEmployee implements Task {
 
@@ -31,6 +31,8 @@ public class EnterDataCreateEmployee implements Task {
 
     @Override
     public <T extends Actor> void performAs(T actor) {
+
+
         actor.attemptsTo(WaitUntil.the(PimPage.BTN_ADD, WebElementStateMatchers.isEnabled()).forNoMoreThan(30).seconds(),
                 Click.on(PimPage.BTN_ADD),
                 WaitUntil.the(PimPage.CHK_LOGIN_DETAILS, WebElementStateMatchers.isVisible()).forNoMoreThan(30).seconds(),
@@ -40,11 +42,17 @@ public class EnterDataCreateEmployee implements Task {
                 Enter.theValue(lastname).into(PimPage.INP_LASTNAME),
                 Enter.theValue(username).into(PimPage.INP_USERNAME),
                 Enter.theValue(password).into(PimPage.INP_PASSWORD),
-                Enter.theValue(confirmPassword).into(PimPage.INP_CONFIRM_PASSWORD),
-                //WaitUntil.the(PimPage.BTN_SAVE, WebElementStateMatchers.isVisible()).forNoMoreThan(30).seconds(),
-                Click.on(PimPage.BTN_SAVE)
+                Enter.theValue(confirmPassword).into(PimPage.INP_CONFIRM_PASSWORD)
         );
 
+
+        String employed;
+        WebElement element = PimPage.INP_EMPLOYEE_ID.resolveFor(actor).getElement();
+        employed=element.getAttribute("value");
+        actor.remember("employeeID",employed);
+
+        actor.attemptsTo(WaitUntil.the(PimPage.BTN_SAVE, WebElementStateMatchers.isVisible()).forNoMoreThan(30).seconds(),
+                Click.on(PimPage.BTN_SAVE));
     }
 
     public static EnterDataCreateEmployee data(String firstname, String lastname, String username, String password, String confirmPassword){
